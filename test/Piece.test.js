@@ -2,13 +2,16 @@ import { expect } from "chai";
 import sinon from "sinon";
 
 import Board from "../src/Board";
+import PieceController from "../src/PieceController";
 import shapes from "../src/shapes";
 
 import Piece from "../src/Piece";
 
 describe("Piece", () => {
   let board = null;
+  let pieceController = null;
   let shape = null;
+
   let piece = null;
 
   beforeEach(() => {
@@ -17,33 +20,25 @@ describe("Piece", () => {
     board.isOpen.onCall(30).returns(false);
     board.add.returns(true);
     board.remove.returns(true);
+
+    pieceController = sinon.createStubInstance(PieceController);
     
     shape = shapes.find(s => s.name === "T");
 
     piece = new Piece(shape);
-    piece.activate(board);
+    piece.activate(board, pieceController);
   });
 
   it("adds itself to the board", () => {
     expect(board.add.called).to.be.true;
   });
 
-  it("soft drops automatically every 30th frame", () => {
-    const inputData = {};
+  it("tells a piece controller to start controlling it", () => {
+    expect(pieceController.setPiece.calledWith(piece)).to.be.true;
+  })
 
-    for (let i = 0; i < 31; i++) {
-      piece.update(inputData);
-    }
-    pieceDidMove();
-  });
-
-  it("shifts all of its blocks to the left", () => {
-    piece.shiftLeft();
-    pieceDidMove();
-  });
-
-  it("shifts all of its blocks to the right", () => {
-    piece.shiftRight();
+  it("shifts its blocks given a vector", () => {
+    piece.shift(1, 1);
     pieceDidMove();
   });
 
@@ -55,25 +50,6 @@ describe("Piece", () => {
   it("rotates its blocks counter-clockwise", () => {
     piece.rotateLeft();
     pieceDidMove();
-  });
-
-  it("soft drops its blocks", () => {
-    piece.fall();
-    pieceDidMove();
-  });
-
-  it("hard drops its blocks until reaching an obstacle", () => {
-    piece.hardDrop();
-    pieceDidMove();
-  });
-
-  it("stops accepting input when deactivated", () => {
-    const inputData = {};
-    piece.deactivate();
-    
-    piece.update(inputData);
-
-    pieceDidNotMove();
   });
 
   function pieceDidMove() {

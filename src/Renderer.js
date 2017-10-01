@@ -1,8 +1,8 @@
 class Renderer {
-  constructor(width, height, context) {
+  constructor(context, width, height) {
+    this._context = context;
     this._width = width;
     this._height = height;
-    this._context = context;
   }
 
   clearScreen() {

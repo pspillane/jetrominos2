@@ -2,7 +2,10 @@ import Renderer from "./Renderer";
 import Board from "./Board";
 import Piece from "./Piece";
 import PieceBag from "./PieceBag";
+import PieceController from "./PieceController";
 import InputState from "./InputState";
+
+const pieceController = new PieceController();
 
 let inputState, renderer, board, pieceBag, piece;
 
@@ -15,13 +18,14 @@ function init() {
   window.addEventListener("keyup", evt => inputState.keyUp(evt));
   window.addEventListener("keydown", evt => inputState.keyDown(evt));
 
-  const context = document.getElementById("canvas").getContext("2d");
-  renderer = new Renderer(context);
+  const canvas = document.getElementById("canvas");
+  const context = canvas.getContext("2d");
+  renderer = new Renderer(context, canvas.width, canvas.height);
   board = new Board(renderer);
   pieceBag = new PieceBag(board);
 
   // Parameterless constructor creates a null piece whose sole purpose
-  // is to signal the actual first piece to be pulled from the bag
+  // is to signal the actual first piece to be pulled from the PieceBag
   piece = new Piece();
 
   const FPS = 30;
@@ -34,13 +38,13 @@ function main() {
 }
 
 function update() {
-  if (!piece.isActive()) {
+  if (!pieceController.hasPiece()) {
     board.clearWholeLines();
     piece = pieceBag.next();
-    piece.activate(board);
+    piece.activate(board, pieceController);
   }
 
-  piece.update(inputState.data);
+  pieceController.update(inputState.data);
 }
 
 function draw() {
