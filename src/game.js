@@ -4,7 +4,7 @@ import Piece from "./Piece";
 import PieceBag from "./PieceBag";
 import InputState from "./InputState";
 
-let inputState, canvas, renderer, board, pieceBag, piece;
+let inputState, renderer, board, pieceBag, piece;
 
 if (typeof window !== "undefined" && typeof document !== "undefined") {
   init();
@@ -15,12 +15,12 @@ function init() {
   window.addEventListener("keyup", evt => inputState.keyUp(evt));
   window.addEventListener("keydown", evt => inputState.keyDown(evt));
 
-  canvas = document.getElementById("canvas");
-  renderer = new Renderer(canvas);
+  const context = document.getElementById("canvas").getContext("2d");
+  renderer = new Renderer(context);
   board = new Board(renderer);
   pieceBag = new PieceBag(board);
 
-  // parameterless constructor creates a null piece whose sole purpose
+  // Parameterless constructor creates a null piece whose sole purpose
   // is to signal the actual first piece to be pulled from the bag
   piece = new Piece();
 
