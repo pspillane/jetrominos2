@@ -1,0 +1,23 @@
+{
+  "name": "jetrominos2",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack",
+    "test": "mocha-webpack 'test/*.test.js'"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "chai": "^4.1.2",
+    "eslint": "^4.7.0",
+    "eslint-loader": "^1.9.0",
+    "mocha": "^3.5.3",
+    "mocha-webpack": "^0.7.0",
+    "sinon": "^3.3.0",
+    "webpack": "^3.5.5"
+  },
+  "dependencies": {}
+}
