@@ -29,26 +29,21 @@ class Piece {
 
     if (input.left) {
       this.shiftLeft();
-      input.left = false;
     }
     if (input.right) {
       this.shiftRight();
-      input.right = false;
     }
     if (input.down) {
       this.fall();
     }
     if (input.up) {
       this.hardDrop();
-      input.up = false;
     }
     if (input.a) {
       this.rotateRight();
-      input.a = false;
     }
     if (input.b) {
       this.rotateLeft();
-      input.b = false;
     }
 
     if (this._autoFallCount === AUTO_FALL) {

@@ -28,28 +28,6 @@ describe("Piece", () => {
     expect(board.add.called).to.be.true;
   });
 
-  it("accepts input and switches all inputs off except 'down'", () => {
-    const input = {
-      left: true,
-      right: true,
-      down: true,
-      up: false,
-      a: true,
-      b: true
-    };
-
-    piece.update(input);
-
-    expect(input).to.deep.equal({
-      left: false,
-      right: false,
-      down: true,
-      up: false,
-      a: false,
-      b: false
-    });
-  });
-
   it("soft drops automatically every 30th frame", () => {
     const inputData = {};
 
