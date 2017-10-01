@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "webpack",
-    "test": "mocha-webpack 'test/*.test.js'"
+    "test": "mocha-webpack \"test/*.test.js\""
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",
