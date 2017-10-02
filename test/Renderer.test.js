@@ -12,7 +12,7 @@ describe("Renderer", () => {
   const width = 100;
   const height = 200;
 
-  const renderer = new Renderer(100, 200, context);
+  const renderer = new Renderer(context, 100, 200);
 
   it("clears the entire screen", () => {
     renderer.clearScreen();

@@ -1,22 +1,25 @@
 import { expect } from "chai";
-import Board from "../src/Board";
 import PieceBag from "../src/PieceBag";
 
 describe("PieceBag", () => {
   let pieceBag = null;
 
   beforeEach(() => {
-    pieceBag = new PieceBag(new Board());
+    pieceBag = new PieceBag();
   });
 
   it("pulls the next piece out of the bag", () => {
     const piece = pieceBag.next();
-    expect(piece).to.be.an("Object");
+
+    // "cheating" a bit here; _shape is meant to be a private member
+    expect(piece).to.haveOwnProperty("_shape");
   });
 
   it("previews the upcoming piece", () => {
-    const shape = pieceBag.peek();
-    expect(shape).to.be.an("Object");
+    const piece = pieceBag.peek();
+
+    // see the test right above this one
+    expect(piece).to.haveOwnProperty("_shape");
   });
 
   it("maintains the piece preview until the next piece is pulled", () => {
