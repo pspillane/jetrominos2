@@ -1,13 +1,30 @@
-const AUTO_FALL = 30;
-
 class PieceController {
   constructor() {
     this._piece = null;
+    this._autoFallThreshold = 30;
     this._autoFallCount = 0;
+
+    const command = (fn, cond) => ({ framesOn: 0, fn: fn, cond: cond });
+    const once = (cmd) => cmd.framesOn === 0;
+    const das = (cmd) => cmd.framesOn === 0 || cmd.framesOn > 10;
+    const auto = () => true;
+
+    this._commands = {
+      left: command(this._shiftLeft.bind(this), das),
+      right: command(this._shiftRight.bind(this), das),
+      down: command(this._fall.bind(this), auto),
+      up: command(this._hardDrop.bind(this), once),
+      a: command(this._rotateRight.bind(this), once),
+      b: command(this._rotateLeft.bind(this), once)
+    };
   }
 
   setPiece(piece) {
     this._piece = piece;
+  }
+
+  setAutoFallThreshold(n) {
+    this._autoFallThreshold = n;
   }
 
   hasPiece() {
@@ -19,29 +36,28 @@ class PieceController {
       return;
     }
 
-    if (input.left) {
-      this._shiftLeft();
-    }
-    if (input.right) {
-      this._shiftRight();
-    }
-    if (input.down) {
-      this._fall();
-    }
-    if (input.up) {
-      this._hardDrop();
-    }
-    if (input.a) {
-      this._rotateRight();
-    }
-    if (input.b) {
-      this._rotateLeft();
-    }
+    this._processCommands(input);
 
-    if (this._autoFallCount === AUTO_FALL) {
+    if (this._autoFallCount === this._autoFallThreshold) {
       this._fall();
     } else {
       this._autoFallCount++;
+    }
+  }
+
+  _processCommands(input) {
+    for (var prop in this._commands) {
+      if (this._commands.hasOwnProperty(prop)) {
+        const cmd = this._commands[prop];
+        if (input[prop]) {
+          if (cmd.cond(cmd)) {
+            cmd.fn();
+          }
+          cmd.framesOn++;
+        } else {
+          cmd.framesOn = 0;
+        }
+      }
     }
   }
 

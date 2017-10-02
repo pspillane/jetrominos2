@@ -10,11 +10,7 @@ describe("PieceController", () => {
 
   beforeEach(() => {
     piece = sinon.createStubInstance(Piece);
-
-    // shift returns false so hard dropping does not enter into an infinite loop
-    piece.shift.returns(false);
-
-    // rotateLeft and rotateRight return true to simulate a successful rotation
+    piece.shift.returns(true);
     piece.rotateLeft.returns(true);
     piece.rotateRight.returns(true);
 
@@ -28,6 +24,18 @@ describe("PieceController", () => {
 
     it("has a piece", () => {
       expect(pieceController.hasPiece()).to.be.true;
+    });
+
+    it("waits to make the piece fall automatically", () => {
+      pieceController.setAutoFallThreshold(1);
+      pieceController.update({});
+      expect(piece.shift.called).to.be.false;
+    });
+
+    it("eventually makes the piece fall automatically", () => {
+      pieceController.setAutoFallThreshold(0);
+      pieceController.update({});
+      expect(piece.shift.called).to.be.true;
     });
 
     it("shifts the piece left", () => {
@@ -46,8 +54,12 @@ describe("PieceController", () => {
     });
 
     it("hard drops the piece so it falls until it can't anymore", () => {
+      piece.shift.onCall(4).returns(false);
+
       pieceController.update({up: true});
+
       expect(piece.shift.calledWith(0, 1)).to.be.true;
+      expect(piece.shift.callCount).to.equal(5);
     });
 
     it("rotates the piece counter-clockwise", () => {

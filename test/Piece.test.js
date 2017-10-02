@@ -17,7 +17,6 @@ describe("Piece", () => {
   beforeEach(() => {
     board = sinon.createStubInstance(Board);
     board.isOpen.returns(true);
-    board.isOpen.onCall(30).returns(false);
     board.add.returns(true);
     board.remove.returns(true);
 
@@ -54,9 +53,5 @@ describe("Piece", () => {
 
   function pieceDidMove() {
     expect(board.remove.called).to.be.true;
-  }
-
-  function pieceDidNotMove() {
-    expect(board.remove.called).to.be.false;
   }
 });

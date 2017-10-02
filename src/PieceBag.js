@@ -3,12 +3,12 @@ import shapes from "./shapes";
 
 class PieceBag {
   constructor() {
-    this._nextPiece = randomPiece.call(this);
+    this._nextPiece = randomPiece();
   }
 
   next() {
     const piece = this._nextPiece;
-    this._nextPiece = randomPiece.call(this);
+    this._nextPiece = randomPiece();
     return piece;
   }
 
