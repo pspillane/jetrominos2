@@ -20,7 +20,15 @@ const I = {
     },
     {
       auxPoints: [u, d, new Point(0, 2)],
-      offset: new Point(0, 0)
+      offset: new Point(1, 0)
+    },
+    {
+      auxPoints: [new Point(-2, 0), l, r],
+      offset: new Point(1, 1)
+    },
+    {
+      auxPoints: [new Point(0, -2), u, d],
+      offset: new Point(0, 1)
     }
   ],
   spawnPoint: new Point(4, 1),

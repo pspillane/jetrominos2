@@ -1,4 +1,5 @@
 node_modules/
 dist/script.js
+dist/script.js.map
 .tmp
 npm-debug.log

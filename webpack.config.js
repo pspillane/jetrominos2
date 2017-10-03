@@ -1,28 +1,29 @@
-const path = require('path');
+const path = require("path");
 
 module.exports = {
-  entry: './src/game.js',
+  entry: "./src/game.js",
   output: {
-    filename: 'script.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: "script.js",
+    path: path.resolve(__dirname, "dist")
   },
   resolve: {
     modules: [path.resolve(__dirname, "src"), "node_modules"]
   },
+  devtool: "source-map",
   module: {
     rules: [
       {
-        enforce: 'pre',
+        enforce: "pre",
         test: /\.js$/,
         exclude: /node_modules/,
-        include: path.join(__dirname, 'src'),
-        loader: 'eslint-loader',
+        include: path.join(__dirname, "src"),
+        loader: "eslint-loader",
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        include: path.join(__dirname, 'src'),
-        loader: 'babel-loader',
+        include: path.join(__dirname, "src"),
+        loader: "babel-loader",
         query: {
           presets: ["env"],
         }
